@@ -61,7 +61,7 @@ void Game::start() {
                 this->board.placeMark(a, b, this->turn);
                 this->board.draw(); // vẽ lại bàn cờ
 
-                if (checkWin()) {
+                if (checkWin(a, b)) {
                     printf("%d da thang", turn);
                     break;
                 }
@@ -92,76 +92,45 @@ void Game::switchTurn() {
 	this->turn = (this->turn == player1->getMarkInFile() ? player2->getMarkInFile() : player1->getMarkInFile());
 }
 
-bool Game::checkWin() {
+bool Game::checkWin(int lastX, int lastY) {
+    char symbol = board.get(lastX, lastY);
+    if (symbol == ' ') return false;
+
     int n = board.getSize();
+    int cond = this->condition; // số quân liên tiếp cần để thắng
 
-    int dX[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
-    int dY[8] = {0, 0, -1, 1, -1, 1, -1, 1};
+    // 4 hướng chính 
+    int dx[4] = {1, 0, 1, 1};
+    int dy[4] = {0, 1, 1, -1};
 
-    int cnt = 0;
+    auto inBoard = [&](int x, int y) {
+        return (x >= 0 && y >= 0 && x < n && y < n);
+    };
 
+    for (int dir = 0; dir < 4; dir++) {
+        int count = 1; // đếm quân liên tiếp (bắt đầu từ quân vừa đánh)
 
-    for (int x : boardMark) {
-
-    }
-
-        // Duyet ngang
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j <= n - this->condition; j++) {
-            bool flag = true;
-            for (int k = 0; k < this->condition; k++) {
-                if (board.get(i, j + k) != this->turn) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) return true;
+        // Duyệt tiến
+        int x = lastX + dx[dir];
+        int y = lastY + dy[dir];
+        while (inBoard(x, y) && board.get(x, y) == symbol) {
+            count++;
+            x += dx[dir];
+            y += dy[dir];
         }
-    }
 
-    // Duyet doc
-    for (int i = 0; i <= n - this->condition; i++) {
-        for (int j = 0; j < n; j++) {
-            bool flag = true;
-            for (int k = 0; k < this->condition; k++) {
-                if (board.get(i + k, j) != this->turn) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) return true;
+        // Duyệt lùi (ngược hướng)
+        x = lastX - dx[dir];
+        y = lastY - dy[dir];
+        while (inBoard(x, y) && board.get(x, y) == symbol) {
+            count++;
+            x -= dx[dir];
+            y -= dy[dir];
         }
-    }
 
-    // Duyet cheo phai (\)
-    for (int i = 0; i <= n - this->condition; i++) {
-        for (int j = 0; j <= n - this->condition; j++) {
-            bool flag = true;
-            for (int k = 0; k < this->condition; k++) {
-                if (board.get(i + k, j + k) != this->turn) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) return true;
-        }
-    }
-
-    // Duyet cheo trai (/)
-    for (int i = 0; i <= n - this->condition; i++) {
-        for (int j = this->condition - 1; j < n; j++) {
-            bool flag = true;
-            for (int k = 0; k < this->condition; k++) {
-                if (board.get(i + k, j - k) != this->turn) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) return true;
-        }
+        if (count >= cond)
+            return true;
     }
 
     return false;
-
-
 }

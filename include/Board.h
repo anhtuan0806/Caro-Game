@@ -13,6 +13,7 @@ private:
 public:
 	Board(int);
 	int getSize();
+	std::vector<std::vector<int>> getBoardMark();
 	int get(int, int);
 	char getSymbolAt(int row, int col);
 	void draw();

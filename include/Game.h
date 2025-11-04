@@ -24,7 +24,7 @@ public:
 	Game(int, int, Mode);
 	void start();
 	void switchTurn();
-	bool checkWin();
+	bool checkWin(int lastX = 0, int lastY = 0);
 	Player getPlayer1();
 	Player getPlayer2();
 };

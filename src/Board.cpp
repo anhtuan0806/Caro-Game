@@ -7,6 +7,10 @@ int Board::getSize() {
 	return this->boardSize;
 }
 
+std::vector<std::vector<int>> Board::getBoardMark() {
+    return boardMark;
+}
+
 int Board::get(int a, int b) {
 	return this->boardMark[a][b];
 }
@@ -71,7 +75,6 @@ void Board::draw() {
 }
 
 bool Board::isEmpty(int a, int b) {
-    // First check bounds, then check mark value
     if (a < 0 || a >= this->boardSize || b < 0 || b >= this->boardSize)
         return false;
     return boardMark[a][b] == 0;
