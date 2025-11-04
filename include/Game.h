@@ -2,6 +2,8 @@
 #define GAME_H
 #include "Board.h"
 #include "Player.h"
+#include "Human.h"
+#include "Bot.h"
 #include <conio.h>
 #include <iostream>
 

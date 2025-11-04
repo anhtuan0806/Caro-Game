@@ -1,8 +1,8 @@
 ﻿#include "Game.h"
 
 Game::Game(int condition, int boardSize, Mode modeGame) : turn(1), condition(condition), board(Board(boardSize)) {
-    player1 = new Player(1, 'X', 7, " ");
-    player2 = new Player(-1, 'O', 7, " ");
+    player1 = new Human(1, 'X', 7, " ");
+    player2 = new Human(-1, 'O', 7, " ");
 }
 
 void Game::start() {
