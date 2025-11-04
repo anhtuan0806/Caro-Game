@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
 #include <string>
 class Player
 {
@@ -20,4 +21,4 @@ public:
 	void setPoint();
 	void setColorMark();
 };
-
+#endif

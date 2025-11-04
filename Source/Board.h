@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BOARD_H
+#define BOARD_H
 #include <vector>
 #include <iostream>
 #include "ConsoleHelper.h"
@@ -18,4 +19,4 @@ public:
 	bool isEmpty(int, int);
 	void placeMark(int, int, int);
 };
-
+#endif 

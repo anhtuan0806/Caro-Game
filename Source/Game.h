@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 #include "Board.h"
 #include "Player.h"
 #include <conio.h>
@@ -27,3 +28,4 @@ public:
 	Player getPlayer1();
 	Player getPlayer2();
 };
+#endif

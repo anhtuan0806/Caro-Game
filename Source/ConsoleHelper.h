@@ -1,5 +1,6 @@
-﻿#pragma once
-#include <windows.h> // để dùng HANDLE và COORD
+﻿#ifndef CONSOLE_HELPER_H
+#define CONSOLE_HELPER_H
+#include <windows.h> 
 #include <iostream>
 
 class ConsoleHelper
@@ -15,4 +16,4 @@ public:
     static void setTextColor(WORD color);
     static void drawHighlightCell(int x, int y, int cellW, int cellH, bool highlight, char symbol);
 };
-
+#endif
