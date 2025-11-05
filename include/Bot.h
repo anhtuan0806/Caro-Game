@@ -4,13 +4,13 @@
 #include "Player.h"
 #include <cstdlib>
 #include <ctime>
-
+#include <iostream>
 
 class Bot : public Player {
 public:
     using Player::Player;
 
-    void makeMove(int& x, int& y);
+    void makeMove(Board& board, int& a, int& b);
 };
 
 #endif

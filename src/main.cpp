@@ -1,9 +1,10 @@
-﻿#include "Game.h"
+﻿#include "Screen.h"
+#include "MenuScreen.h"
 
 int main() {
-	ConsoleHelper::setConsoleColor(0xF0); 
-	Game* game = new Game(5, 15, Mode::PVP);
-	game->start();
-	delete game;
+	Screen* screen = new MenuScreen;
+	screen->show();
+	screen->handleInput();
+	delete screen;
 	return 0;
 }

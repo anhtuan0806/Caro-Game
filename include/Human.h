@@ -2,13 +2,15 @@
 #define HUMAN_H
 
 #include "Player.h"
-#include <iostream>
+#include "ConsoleHelper.h"
+#include <conio.h>
+#include <windows.h>
 
 class Human : public Player {
 public:
-    using Player::Player; 
+    using Player::Player; // kế thừa constructor
 
-    void makeMove(int& x, int& y);
+    void makeMove(Board& board, int& a, int& b);
 };
 
 #endif

@@ -19,5 +19,7 @@ public:
 	void draw();
 	bool isEmpty(int, int);
 	void placeMark(int, int, int);
+	void drawCell(int, int);
+
 };
 #endif 

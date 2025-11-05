@@ -1,91 +1,31 @@
 ﻿#include "Game.h"
 
 Game::Game(int condition, int boardSize, Mode modeGame) : turn(1), condition(condition), board(Board(boardSize)) {
-    player1 = new Human(1, 'X', 7, " ");
-    player2 = new Human(-1, 'O', 7, " ");
+    player1 = new Human(1, 1, 3, " ");
+    player2 = new Bot(-1, -1, 4, " ");
 }
 
 void Game::start() {
-    this->board.draw();
+    board.draw();
     ConsoleHelper::SetConsoleCursorType(2, false);
 
-    const int cellWidth = 4;
-    const int cellHeight = 2;
-
+    Player* current = player1;
     int a = 0, b = 0;
-    int boardSize = this->board.getSize();
-
-    // Lấy tọa độ góc trên trái của bàn cờ
-    int consoleW, consoleH;
-    ConsoleHelper::getConsoleSize(consoleW, consoleH);
-    int boardWidth = boardSize * cellWidth + 1;
-    int boardHeight = boardSize * cellHeight + 1;
-    int startX = (consoleW - boardWidth) / 2;
-    int startY = (consoleH - boardHeight) / 2;
-
-    // Tọa độ ô hiện tại
-    int curX = startX + b * cellWidth;
-    int curY = startY + a * cellHeight;
-
-    char symbol = board.getSymbolAt(a, b);
-    ConsoleHelper::drawHighlightCell(curX, curY, cellWidth, cellHeight, true, symbol);
-
-    bool highlightOn = true;
-    ULONGLONG lastBlink = GetTickCount64();
 
     while (true) {
-        // Hiệu ứng nhấp nháy mỗi 300 ms
-        if (GetTickCount64() - lastBlink > 300) {
-            highlightOn = !highlightOn;
-            symbol = board.getSymbolAt(a, b);
-            ConsoleHelper::drawHighlightCell(curX, curY, cellWidth, cellHeight, highlightOn, symbol);
-            lastBlink = GetTickCount64();
+        current->makeMove(board, a, b);
+        if (a == -1 && b == -1) break;
+
+        board.placeMark(a, b, current->getMarkInFile());
+        board.drawCell(a, b); 
+
+        if (checkWin(a, b)) {
+            std::cout << "\n" << current->getMark() << " thắng!\n";
+            break;
         }
 
-        // Nếu có phím nhấn thì xử lý
-        if (_kbhit()) {
-            int ch = _getch();
-
-            // Xóa highlight hiện tại
-            symbol = board.getSymbolAt(a, b);
-            ConsoleHelper::drawHighlightCell(curX, curY, cellWidth, cellHeight, false, symbol);
-
-            if (ch == 224 || ch == 0) {  // phím mũi tên
-                ch = _getch();
-                if (ch == 72 && a > 0) a--; // Up
-                else if (ch == 80 && a < boardSize - 1) a++; // Down
-                else if (ch == 75 && b > 0) b--; // Left
-                else if (ch == 77 && b < boardSize - 1) b++; // Right
-            }
-            else if (ch == 13 && this->board.isEmpty(a, b)) { // Enter
-                this->board.placeMark(a, b, this->turn);
-                this->board.draw(); // vẽ lại bàn cờ
-
-                if (checkWin(a, b)) {
-                    printf("%d da thang", turn);
-                    break;
-                }
-                switchTurn();
-            }
-            else if (ch == 'x') break;
-
-            // Cập nhật tọa độ mới
-            curX = startX + b * cellWidth;
-            curY = startY + a * cellHeight;
-            symbol = board.getSymbolAt(a, b);
-
-            // Hiển thị ô mới
-            ConsoleHelper::drawHighlightCell(curX, curY, cellWidth, cellHeight, true, symbol);
-
-            // Reset thời gian nhấp nháy để không bị lệch
-            lastBlink = GetTickCount64();
-        }
-
-        Sleep(30); // nghỉ nhẹ để CPU không 100%
+        current = (current == player1) ? player2 : player1;
     }
-
-    symbol = board.getSymbolAt(a, b);
-    ConsoleHelper::drawHighlightCell(curX, curY, cellWidth, cellHeight, true, symbol);
 }
 
 void Game::switchTurn() {

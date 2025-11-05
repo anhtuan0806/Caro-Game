@@ -83,3 +83,23 @@ bool Board::isEmpty(int a, int b) {
 void Board::placeMark(int a, int b, int mark) {
 	boardMark[a][b] = mark;
 }
+
+void Board::drawCell(int a, int b) {
+    const int cellWidth = 4;
+    const int cellHeight = 2;
+    int consoleW, consoleH;
+    ConsoleHelper::getConsoleSize(consoleW, consoleH);
+    int boardWidth = boardSize * cellWidth + 1;
+    int boardHeight = boardSize * cellHeight + 1;
+    int startX = (consoleW - boardWidth) / 2;
+    int startY = (consoleH - boardHeight) / 2;
+
+    char symbol = getSymbolAt(a, b);
+    int cellX = startX + b * cellWidth;
+    int cellY = startY + a * cellHeight;
+
+    ConsoleHelper::gotoXY(cellX + cellWidth / 2, cellY + cellHeight / 2);
+    ConsoleHelper::setTextColor((symbol == 'X') ? 0xFC : 0xFB); // đỏ hoặc xanh
+    std::cout << symbol;
+    ConsoleHelper::setTextColor(0xF7);
+}

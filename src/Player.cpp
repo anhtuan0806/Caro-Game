@@ -1,12 +1,12 @@
 #include "Player.h"
 
-Player::Player(int markInFile, char mark, int colorMark, const std::string& name)
+Player::Player(int markInFile, int mark, int colorMark, const std::string& name)
     : markInFile(markInFile), mark(mark), colorMark(colorMark), name(name), point(0) {}
 
 int Player::getMarkInFile() const { 
 	return markInFile; 
 }
-char Player::getMark() const { 
+int Player::getMark() const { 
 	return mark; 
 }
 int Player::getColorMark() const { 

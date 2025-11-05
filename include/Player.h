@@ -2,22 +2,23 @@
 #define PLAYER_H
 
 #include <string>
+#include "Board.h"
 
 class Player {
 protected:
     int markInFile;
-    char mark;
+    int mark;
     int colorMark;
     std::string name;
     int point;
 
 public:
-    Player(int markInFile, char mark, int colorMark, const std::string& name);
+    Player(int markInFile, int mark, int colorMark, const std::string& name);
     virtual ~Player() = default;
 
     // getter
     int getMarkInFile() const;
-    char getMark() const;
+    int getMark() const;
     int getColorMark() const;
     std::string getName() const;
     int getPoint() const;
@@ -27,7 +28,7 @@ public:
     void setPoint(int p);
     void setColorMark(int color);
 
-    virtual void makeMove(int& x, int& y) = 0; 
+    virtual void makeMove(Board& board, int& a, int& b) = 0;
 };
 
 #endif
